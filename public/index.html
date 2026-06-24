@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MALEKA Control Center</title>
+
+<style>
+body{
+background:#0b0f17;
+color:#fff;
+font-family:Arial;
+padding:20px;
+}
+
+.card{
+background:#151c28;
+padding:20px;
+margin-bottom:15px;
+border-radius:12px;
+}
+
+.value{
+font-size:28px;
+font-weight:bold;
+color:#4ade80;
+}
+</style>
+</head>
+
+<body>
+
+<h1>MALEKA Control Center</h1>
+
+<div class="card">
+<div>System</div>
+<div id="system" class="value">Loading...</div>
+</div>
+
+<div class="card">
+<div>Uptime</div>
+<div id="uptime" class="value">0</div>
+</div>
+
+<div class="card">
+<div>Memory Heap Used</div>
+<div id="memory" class="value">0</div>
+</div>
+
+<div class="card">
+<div>CPU User</div>
+<div id="cpu" class="value">0</div>
+</div>
+
+<script>
+
+async function refresh(){
+
+const res =
+await fetch('/telemetry');
+
+const data =
+await res.json();
+
+document.getElementById('system').innerText =
+'ONLINE';
+
+document.getElementById('uptime').innerText =
+Math.floor(data.uptime) + ' sec';
+
+document.getElementById('memory').innerText =
+data.memory.heapUsed;
+
+document.getElementById('cpu').innerText =
+data.cpu.user;
+
+}
+
+setInterval(refresh,1000);
+refresh();
+
+</script>
+
+</body>
+</html>

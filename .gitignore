@@ -1,0 +1,14 @@
+node_modules/
+dist/
+storage_data/
+*.log
+*.wal
+.bin
+.tmp
+data/
+data_/
+output/
+input/
+tsconfig.tsbuildinfo
+.env
+.env.

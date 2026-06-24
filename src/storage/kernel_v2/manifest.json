@@ -1,0 +1,13 @@
+{
+  "kernel": "MALEKA-V2",
+  "architecture": "Predictive-Atomic-Storage",
+  "components": [
+    "AdaptiveCompressor",
+    "PulseCoordinator",
+    "TelemetryMatrix",
+    "ParallelScheduler"
+  ],
+  "durability": "WAL-Group-Commit",
+  "integrity": "CRC32C-Hardware-Accelerated",
+  "status": "PRODUCTION_READY"
+}
