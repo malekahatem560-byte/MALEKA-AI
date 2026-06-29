@@ -13,12 +13,8 @@ export function setupInfrastructure(
     app.use(express.json());
     app.use(express.static('public'));
 
+    // Register studio routes once (previously duplicated in earlier commit).
     registerStudioRoutes(app);
-
-
-    registerStudioRoutes(app);
-
-registerStudioRoutes(app);
 
     app.get('/', (_, res) => {
         res.json({
