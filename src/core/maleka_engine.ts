@@ -5,73 +5,148 @@ import { AgentDispatcher } from '../runtime/agent_dispatcher';
 import { SystemOrchestrator } from '../agents/system_orchestrator';
 import { HealthMonitor } from './monitoring/health_monitor';
 import { PermissionManager } from '../security/permission_manager';
+import { StudioKernel } from '../studio/core/studio_kernel';
+import { StudioIntegrationLayer } from '../studio/integration/studio_integration_layer';
+import { MemoryManager } from './memory/memory_manager';
+
+import {
+GlobalCognitiveRuntime
+} from './cognition/global_cognitive_runtime';
 
 export class MalekaEngine {
-    private runtime: RuntimeManager;
-    private bus: EventBus;
-    private dispatcher: AgentDispatcher;
-    private orchestrator: SystemOrchestrator;
-    private kernel: StorageKernelV2;
-    private monitor: HealthMonitor;
-    private permissions: PermissionManager;
 
-    constructor() {
-        this.bus = new EventBus();
+private runtime: RuntimeManager;
+private bus: EventBus;
+private dispatcher: AgentDispatcher;
+private orchestrator: SystemOrchestrator;
+private kernel: StorageKernelV2;
+private monitor: HealthMonitor;
+private permissions: PermissionManager;
+private studio: StudioKernel;
+private studioIntegration: StudioIntegrationLayer;
 
-        this.kernel =
-            new StorageKernelV2('./storage_data');
+private memoryManager: MemoryManager;
 
-        this.permissions = new PermissionManager();
+constructor() {
 
-        this.permissions.grant(
-            'OBS_01',
-            'EXECUTE'
-        );
+this.bus = new EventBus();
 
-        this.permissions.grant(
-            'EXEC_01',
-            'EXECUTE'
-        );
+this.kernel =
+new StorageKernelV2(
+'./storage_data'
+);
 
-        this.orchestrator =
-            new SystemOrchestrator(
-                this.kernel
-            );
+this.memoryManager =
+new MemoryManager(
+this.kernel
+);
 
-        this.dispatcher =
-            new AgentDispatcher(
-                this.bus,
-                this.orchestrator,
-                this.permissions
-            );
+GlobalCognitiveRuntime.initialize(
+this.memoryManager
+);
 
-        this.monitor =
-            new HealthMonitor(
-                this.bus
-            );
+this.permissions =
+new PermissionManager();
 
-        this.runtime =
-            new RuntimeManager(
-                this.dispatcher,
-                this.bus
-            );
-    }
+this.studio =
+new StudioKernel();
 
-    public async start(): Promise<void> {
-        await this.kernel.initialize();
+this.studioIntegration =
+new StudioIntegrationLayer(
+this.studio,
+this.bus
+);
 
-        console.log(
-            '[BOOT] Storage Kernel Ready'
-        );
+this.studioIntegration.initialize();
 
-        this.runtime.start();
-    }
+const agents = [
+'EXEC_01','OBS_01','STRAT_01','SEC_01','DIST_01',
+'PRED_V2_01','HEAL_01','INT_01','SYNC_01','AUDIT_01',
+'NET_01','CACHE_01','BUS_01','RES_01','GATE_01',
+'CFG_01','HLTH_01','DEPL_01','DL_01','INTEL_01',
+'SIM_01','DASH_01','COMP_01','SCALE_01','EXC_01',
+'CRYPT_01','SCHED_01','MEM_01','IDS_01','ECO_01',
+'PROTO_01','ASST_01','FED_01','RISK_01','PERF_01',
+'INNO_01'
+];
 
-    public async bootstrap(): Promise<void> {
-        await this.start();
-
-        console.log(
-            '[BOOT] Maleka Core Bootstrapped.'
-        );
-    }
+for (const agent of agents) {
+this.permissions.grant(
+agent,
+'EXECUTE'
+);
 }
+
+this.orchestrator =
+new SystemOrchestrator(
+this.kernel
+);
+
+this.dispatcher =
+new AgentDispatcher(
+this.bus,
+this.orchestrator,
+this.permissions
+);
+
+this.monitor =
+new HealthMonitor(
+this.bus
+);
+
+this.runtime =
+new RuntimeManager(
+this.dispatcher,
+this.bus
+);
+
+}
+
+public async start(): Promise<void> {
+
+await this.kernel.initialize();
+
+console.log(
+'[BOOT] Storage Kernel Ready'
+);
+
+this.runtime.start();
+
+}
+
+public async bootstrap(): Promise<void> {
+
+await this.start();
+
+console.log(
+'[BOOT] Maleka Core Bootstrapped.'
+);
+
+}
+
+}
+
+async function main() {
+  const engine = new MalekaEngine();
+  await engine.bootstrap();
+}
+
+main().catch((err) => {
+  console.error('[FATAL]', err);
+  process.exit(1);
+});
+
+// MALEKA ENGINE → GATEWAY HEARTBEAT BRIDGE
+setInterval(async () => {
+  try {
+    await fetch("http://localhost:8080/api/update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        runtime: "active",
+        kernel: "online",
+        timestamp: Date.now()
+      })
+    });
+  } catch (e) {}
+}, 2000);

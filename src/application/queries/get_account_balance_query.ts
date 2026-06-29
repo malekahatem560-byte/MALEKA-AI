@@ -1,17 +1,11 @@
-import { DurableAppendLog } from '../../infrastructure/journal/durable_append_log';
+import { EventRepository } from '../../infrastructure/persistence/event_repository';
+import { Account } from '../../domain/aggregates/account';
 
 export class GetAccountBalanceQuery {
-    constructor(private log: DurableAppendLog) {}
+    constructor(private repository: EventRepository<Account>) {}
 
     public async execute(accountId: string): Promise<number> {
-        let balance = 0;
-        await this.log.replay(accountId, async (event: any) => {
-            if (event.eventType === 'Deposited') {
-                balance += event.data.amount;
-            } else if (event.eventType === 'Withdrawn') {
-                balance -= event.data.amount;
-            }
-        });
-        return balance;
+        const account = await this.repository.load(accountId);
+        return account.getBalance();
     }
 }

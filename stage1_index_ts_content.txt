@@ -1,0 +1,4 @@
+import { startBridge } from './infrastructure/api/bridge';
+
+// تشغيل جسر التواصل المباشر مع واجهة Lovable
+startBridge(8080);

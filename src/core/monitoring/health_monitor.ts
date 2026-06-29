@@ -5,7 +5,7 @@ export class HealthMonitor {
 
     public checkSystemHealth(): { status: string, timestamp: number } {
         const health = { status: 'OK', timestamp: Date.now() };
-        this.bus.publish('SYSTEM_HEALTH_CHECK', health);
+        this.bus.emit('SYSTEM_HEALTH_CHECK', health);
         return health;
     }
 }

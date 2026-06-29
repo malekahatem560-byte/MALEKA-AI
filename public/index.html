@@ -1,84 +1,88 @@
-<!DOCTYPE html>
-<html>
+
+<!DOCTYPE html><html>
 <head>
 <meta charset="utf-8">
-<title>MALEKA Control Center</title>
-
-<style>
+<title>MALEKA Cinematic Studio</title><style>
 body{
-background:#0b0f17;
-color:#fff;
+background:#05070d;
+color:white;
 font-family:Arial;
 padding:20px;
 }
 
 .card{
-background:#151c28;
+background:#131722;
 padding:20px;
 margin-bottom:15px;
-border-radius:12px;
+border-radius:14px;
 }
 
 .value{
-font-size:28px;
+font-size:24px;
 font-weight:bold;
 color:#4ade80;
 }
-</style>
-</head>
 
-<body>
+.agent{
+display:inline-block;
+padding:8px 12px;
+margin:4px;
+background:#1e293b;
+border-radius:8px;
+}
+</style></head><body><h1>🎬 MALEKA Cinematic Studio</h1><div class="card">
+<div>Kernel Status</div>
+<div id="kernel" class="value">Loading...</div>
+</div><div class="card">
+<div>Runtime</div>
+<div id="runtime" class="value">Loading...</div>
+</div><div class="card">
+<div>Agents</div>
+<div id="agents"></div>
+</div><script>
 
-<h1>MALEKA Control Center</h1>
+async function loadKernel(){
+const r = await fetch('/kernel');
+const d = await r.json();
 
-<div class="card">
-<div>System</div>
-<div id="system" class="value">Loading...</div>
-</div>
-
-<div class="card">
-<div>Uptime</div>
-<div id="uptime" class="value">0</div>
-</div>
-
-<div class="card">
-<div>Memory Heap Used</div>
-<div id="memory" class="value">0</div>
-</div>
-
-<div class="card">
-<div>CPU User</div>
-<div id="cpu" class="value">0</div>
-</div>
-
-<script>
-
-async function refresh(){
-
-const res =
-await fetch('/telemetry');
-
-const data =
-await res.json();
-
-document.getElementById('system').innerText =
-'ONLINE';
-
-document.getElementById('uptime').innerText =
-Math.floor(data.uptime) + ' sec';
-
-document.getElementById('memory').innerText =
-data.memory.heapUsed;
-
-document.getElementById('cpu').innerText =
-data.cpu.user;
-
+document.getElementById('kernel').innerText =
+d.status + ' | PID ' + d.pid;
 }
 
-setInterval(refresh,1000);
+async function loadRuntime(){
+const r = await fetch('/runtime');
+const d = await r.json();
+
+document.getElementById('runtime').innerText =
+d.status;
+}
+
+async function loadAgents(){
+const r = await fetch('/agents');
+const d = await r.json();
+
+let html='';
+
+if(d.agents){
+for(const a of d.agents){
+html += '<span class="agent">'+a+'</span>';
+}
+}
+
+document.getElementById('agents').innerHTML = html;
+}
+
+async function refresh(){
+await loadKernel();
+await loadRuntime();
+await loadAgents();
+}
+
 refresh();
+setInterval(refresh,3000);
 
-</script>
-
-</body>
+</script></body>
 </html>
+EOFnpm run build
+
+pm2 restart maleka-core

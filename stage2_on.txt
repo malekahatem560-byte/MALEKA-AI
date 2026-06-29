@@ -1,0 +1,33 @@
+src/runtime/agent_dispatcher.ts:        if (!this.security.hasPermission(agentId, 'EXECUTE')) {
+src/infrastructure/persistence/segment_manager.ts:    public async checkRetention(partition: string, maxAge: number): Promise<void> {
+src/infrastructure/api/server.ts:    app.use(express.json());
+src/infrastructure/api/server.ts:        res.json({
+src/infrastructure/api/server.ts:        res.json({
+src/infrastructure/api/server.ts:        res.json({
+src/infrastructure/api/server.ts:            return res.json({
+src/infrastructure/api/server.ts:        res.json({
+src/infrastructure/api/server.ts:res.json({
+src/infrastructure/api/server.ts:res.json({
+src/infrastructure/api/server.ts.bak:    app.use(express.json());
+src/infrastructure/api/server.ts.bak:        res.json({
+src/infrastructure/api/server.ts.bak:        res.json({
+src/infrastructure/api/server.ts.bak:        res.json({
+src/infrastructure/api/server_bridge.ts:    app.use(express.json());
+src/infrastructure/api/server_bridge.ts:        res.status(200).json({ 
+src/infrastructure/api/bridge.ts:    app.use(express.json());
+src/infrastructure/api/bridge.ts:        res.status(200).json({ 
+src/storage/kernel_v2/test_crc32c.ts:function runValidation() {
+src/storage/kernel_v2/test_crc32c.ts:runValidation();
+src/storage/kernel_v2/autonomous_balancer.ts:                await this.triggerEmergencyOptimization(shardId);
+src/storage/kernel_v2/autonomous_balancer.ts:    private async triggerEmergencyOptimization(id: number): Promise<void> {
+src/storage/kernel_v2/pulse_coordinator.ts:    public async executePreemptiveMitigation(): Promise<void> {
+src/storage/kernel_v2/orchestrator.ts:        if (this.pulse.predictLoadRisk()) { await this.pulse.executePreemptiveMitigation(); }
+src/utils/json_bigint_fix.ts:export function patchBigIntSerialization() {
+src/ui/pages/Dashboard.tsx:      const data = await res.json();
+src/ui/pages/Dashboard.tsx:        <button onClick={() => handleAction('/deposit', 100)} className="bg-green-600 px-8 py-3 rounded-2xl font-bold">إيداع 100</button>
+src/ui/pages/Dashboard.tsx:        <button onClick={() => handleAction('/withdraw', 50)} className="bg-red-600 px-8 py-3 rounded-2xl font-bold">سحب 50</button>
+src/security/permission_manager.ts:    public hasPermission(agentId: string, permission: Permission): boolean {
+src/studio/api/studio_routes.ts:res.json(studioKernel.health());
+src/studio/api/studio_routes.ts:res.json(
+src/studio/api/studio_routes.ts:res.json(project);
+src/studio/api/studio_routes.ts.bak:    res.json(result);

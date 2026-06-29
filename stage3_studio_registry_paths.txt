@@ -1,0 +1,1 @@
+src/studio/services/studio_registry.ts

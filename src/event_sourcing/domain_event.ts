@@ -1,9 +1,10 @@
 export interface DomainEvent {
+    eventId?: string;
     aggregateId: string;
     eventType: string;
-    metadata: { 
+    metadata: {
         version: number;
-        [key: string]: any; 
     };
     data: any;
+    timestamp?: number;
 }

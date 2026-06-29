@@ -1,0 +1,8 @@
+@import "./tokens.css";
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #0b1220, var(--bg));
+  color: var(--text);
+  font-family: system-ui;
+}

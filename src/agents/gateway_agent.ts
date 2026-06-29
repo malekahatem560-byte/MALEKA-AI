@@ -5,8 +5,13 @@ export class GatewayAgent extends BaseAgent {
         super(id, 'GATEWAY');
     }
 
-    public async decide(task: { method: string; url: string; payload: any }): Promise<void> {
-        this.log(`GATEWAY: Routing ${task.method} request to ${task.url}`);
-        // محاكاة الاتصال بالخدمة الخارجية
+    public async decide(task: any): Promise<void> {
+
+        const method = task?.method ?? 'RUNTIME';
+        const url = task?.url ?? '/heartbeat';
+
+        this.log(
+            `GATEWAY: Routing ${method} request to ${url}`
+        );
     }
 }

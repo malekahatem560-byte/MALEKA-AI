@@ -1,0 +1,5 @@
+src/runtime/telemetry_stream.ts:        this.bus.subscribe('KERNEL_WRITE', (data) => this.bus.publish('TELEMETRY_UPDATE', data));
+src/runtime/runtime_loop.ts:    this.bus.publish(
+src/runtime/runtime_loop.ts:            this.bus.publish(
+src/core/event_backbone.ts:    public publish(type: string, payload: any): void {
+src/core/monitoring/health_monitor.ts:        this.bus.publish('SYSTEM_HEALTH_CHECK', health);

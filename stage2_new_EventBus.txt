@@ -1,0 +1,2 @@
+src/agents/system_orchestrator.ts:        this.registry.register(new EventBusAgent('BUS_01'));
+src/core/maleka_engine.ts:    this.bus = new EventBus();

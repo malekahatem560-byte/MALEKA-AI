@@ -5,8 +5,14 @@ export class DataLakeAgent extends BaseAgent {
         super(id, 'DATALAKE');
     }
 
-    public async decide(task: { dataId: string; metadata: any }): Promise<void> {
-        this.log(`DATALAKE: Archiving dataset [${task.dataId}] to cold storage.`);
-        // منطق التخزين طويل الأمد
+    public async decide(task: any): Promise<void> {
+
+        const dataId =
+            task?.dataId ??
+            `runtime-${Date.now()}`;
+
+        this.log(
+            `DATALAKE: Archiving dataset [${dataId}] to cold storage.`
+        );
     }
 }

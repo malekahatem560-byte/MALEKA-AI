@@ -1,0 +1,2 @@
+src/studio/core/studio_kernel.ts
+src/studio/orchestrator/studio_kernel.ts

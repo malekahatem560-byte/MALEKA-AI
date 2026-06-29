@@ -1,0 +1,2 @@
+src/index.ts:1:import { MalekaEngine } from './core/maleka_engine.ts';
+src/core/maleka_engine.ts:1:import { StorageKernelV2 } from '../storage/kernel_v2/storage_kernel_v2.ts';

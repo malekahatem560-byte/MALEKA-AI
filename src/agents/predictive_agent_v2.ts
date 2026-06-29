@@ -5,8 +5,27 @@ export class PredictiveAgentV2 extends BaseAgent {
         super(id, 'PREDICTIVE_V2');
     }
 
-    public async decide(task: { history: number[] }): Promise<void> {
-        const avg = task.history.reduce((a, b) => a + b, 0) / task.history.length;
-        this.log(`PREDICTIVE_V2: Analyzing trends. Projected load trend: ${avg > 70 ? 'CRITICAL_SPIKE' : 'STABLE'}`);
+    private history: number[] = [];
+
+    public async decide(task: any): Promise<void> {
+
+        const load =
+            typeof task?.load === 'number'
+                ? task.load
+                : 0;
+
+        this.history.push(load);
+
+        if (this.history.length > 50) {
+            this.history.shift();
+        }
+
+        const avg =
+            this.history.reduce((a, b) => a + b, 0) /
+            this.history.length;
+
+        this.log(
+            `PREDICTIVE_V2: Trend=${avg > 70 ? 'CRITICAL_SPIKE' : 'STABLE'} | AvgLoad=${avg.toFixed(2)}`
+        );
     }
 }

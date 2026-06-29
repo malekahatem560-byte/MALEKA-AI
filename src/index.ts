@@ -1,23 +1,27 @@
-import { setupInfrastructure } from './infrastructure/api/server';
-import { EventBus } from './core/event_bus';
 import { MalekaEngine } from './core/maleka_engine';
+import { setupInfrastructure } from './infrastructure/api/server';
 
-const bus = new EventBus();
-const engine = new MalekaEngine();
+async function boot() {
+    console.log('[BOOT] Starting MALEKA Runtime...');
 
-// Boot the engine
-(async () => {
-    try {
-        await engine.bootstrap();
-    } catch (err) {
-        console.error("[FATAL BOOT ERROR]", err);
-        process.exit(1);
-    }
-})();
+    const engine = new MalekaEngine();
 
-// Setup infrastructure with the event bus
-const server = setupInfrastructure(bus);
+    await engine.bootstrap();
 
-server.listen(8080, () => {
-    console.log("MALEKA Server running on port 8080");
+    console.log('[BOOT] Runtime Active');
+
+    const httpServer = setupInfrastructure(
+        (engine as any).bus,
+        (engine as any).orchestrator
+    );
+
+    httpServer.listen(8080, '0.0.0.0', () => {
+        console.log('[BOOT] API ACTIVE :8080');
+        console.log('[BOOT] WS ACTIVE :8080');
+    });
+}
+
+boot().catch(err => {
+    console.error('[FATAL BOOT ERROR]', err);
+    process.exit(1);
 });

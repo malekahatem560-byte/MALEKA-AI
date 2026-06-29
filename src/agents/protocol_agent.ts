@@ -5,8 +5,9 @@ export class ProtocolAgent extends BaseAgent {
         super(id, 'PROTO_STD');
     }
 
-    public async decide(task: { message: string; protocol: string }): Promise<void> {
-        this.log(`PROTO: Validating message payload against ${task.protocol} standards.`);
-        // منطق التحقق من سلامة البروتوكول
+    public async decide(event: any): Promise<void> {
+        this.log(
+            `PROTO: Validating runtime payload at ${event?.timestamp ?? Date.now()}`
+        );
     }
 }

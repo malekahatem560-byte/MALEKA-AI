@@ -3,7 +3,7 @@ import { Container } from './infrastructure/config/container';
 async function testMALEKA() {
     console.log("--- STARTING MALEKA INTEGRATION TEST ---");
     const { depositHandler, withdrawHandler, balanceQuery } = Container.resolve();
-    const accountId = "test-acc-001";
+    const accountId = `test-${Date.now()}`;
 
     // 1. الإيداع
     await depositHandler.handle({ accountId, amount: 500 });

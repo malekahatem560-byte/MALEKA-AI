@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start-core": "ts-node src/core/maleka_engine.ts",
+    "start-dashboard": "ts-node src/ui/pages/Dashboard.tsx"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.1"
+  }
+}

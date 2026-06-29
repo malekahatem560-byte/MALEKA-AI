@@ -5,8 +5,20 @@ export class FederatedLearningAgent extends BaseAgent {
         super(id, 'FED_LEARN');
     }
 
-    public async decide(task: { modelId: string; localGradients: any }): Promise<void> {
-        this.log(`FED: Aggregating local gradients for model [${task.modelId}].`);
-        // دمج التحديثات (Model Averaging)
+    public async decide(task: {
+        modelId: string;
+        localGradients: {
+            load: number;
+        };
+    }): Promise<void> {
+
+        if (!task) {
+            this.log('Invalid task payload');
+            return;
+        }
+
+        this.log(
+            `FED: Aggregating runtime metrics load=${task.localGradients.load}`
+        );
     }
 }

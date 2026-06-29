@@ -8,12 +8,21 @@ export class CacheAgent extends BaseAgent {
     }
 
     public async decide(task: { key: string; value?: any }): Promise<void> {
-        if (task.value) {
+
+        if (Object.prototype.hasOwnProperty.call(task, 'value')) {
             this.cache.set(task.key, task.value);
-            this.log(`CACHE: Stored value for key: ${task.key}`);
-        } else {
-            const val = this.cache.get(task.key);
-            this.log(`CACHE: Accessed key: ${task.key} - Found: ${!!val}`);
+
+            this.log(
+                `CACHE: Stored value for key: ${task.key}`
+            );
+
+            return;
         }
+
+        const val = this.cache.get(task.key);
+
+        this.log(
+            `CACHE: Accessed key: ${task.key} - Found: ${val !== undefined}`
+        );
     }
 }

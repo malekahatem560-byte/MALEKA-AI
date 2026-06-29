@@ -1,0 +1,3 @@
+src/studio/api/studio_routes.ts:app.get('/studio/status',(_,res)=>{
+src/studio/api/studio_routes.ts:app.get('/studio/projects',(_,res)=>{
+src/studio/api/studio_routes.ts:app.post('/studio/create',(req,res)=>{

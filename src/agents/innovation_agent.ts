@@ -5,9 +5,27 @@ export class InnovationAgent extends BaseAgent {
         super(id, 'INNOVATION');
     }
 
-    public async decide(task: { systemSnapshot: any }): Promise<void> {
-        this.log("INNOVATION: Analyzing system data for breakthrough improvements...");
-        // منطق التفكير الابتكاري (Heuristic search for system growth)
-        this.log("INNOVATION: New optimization pattern identified: Auto-Refactoring enabled.");
+    public async decide(task: {
+        metrics: {
+            timestamp: number;
+            heartbeat: boolean;
+            load: number;
+        };
+    }): Promise<void> {
+
+        if (!task) {
+            this.log('Invalid task payload');
+            return;
+        }
+
+        this.log(
+            `INNOVATION: Runtime load=${task.metrics.load}`
+        );
+
+        if (task.metrics.load < 50) {
+            this.log(
+                'INNOVATION: Auto-Optimization opportunity detected.'
+            );
+        }
     }
 }

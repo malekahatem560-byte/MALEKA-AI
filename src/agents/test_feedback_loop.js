@@ -1,0 +1,19 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const storage_kernel_v2_1 = require("../storage/kernel_v2/storage_kernel_v2");
+const system_orchestrator_1 = require("./system_orchestrator");
+const inter_agent_protocol_1 = require("./inter_agent_protocol");
+/**
+ * اختبار التكامل والترابط (Integration Test)
+ * للتحقق من أن جميع الوكلاء يعملون بتناغم تحت إشراف المنسق.
+ */
+async function runFeedbackTest() {
+    const kernel = new storage_kernel_v2_1.StorageKernelV2('./data_feedback');
+    await kernel.initialize();
+    const orchestrator = new system_orchestrator_1.SystemOrchestrator(kernel);
+    console.log("[Test] Running MALEKA Integrated Feedback Loop...");
+    // محاكاة ضغط نظام عالي (85%)
+    await (0, inter_agent_protocol_1.executeFeedbackLoop)(orchestrator, 85);
+    console.log("[Test] Feedback Loop Completed Successfully.");
+}
+runFeedbackTest().catch(console.error);

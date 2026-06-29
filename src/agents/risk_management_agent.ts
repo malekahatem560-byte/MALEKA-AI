@@ -5,11 +5,24 @@ export class RiskManagementAgent extends BaseAgent {
         super(id, 'RISK_MGMT');
     }
 
-    public async decide(task: { componentId: string; failureProbability: number }): Promise<void> {
-        if (task.failureProbability > 0.7) {
-            this.log(`RISK: High risk detected in [${task.componentId}]. Initiating preemptive mitigation.`);
+    public async decide(task: {
+        componentId: string;
+        failureProbability: number;
+    }): Promise<void> {
+
+        if (!task) {
+            this.log('Invalid task payload');
+            return;
+        }
+
+        if (task.failureProbability > 0.5) {
+            this.log(
+                `RISK: HIGH RISK detected for ${task.componentId}`
+            );
         } else {
-            this.log(`RISK: Component [${task.componentId}] operating within safety parameters.`);
+            this.log(
+                `RISK: ${task.componentId} operating within safety parameters.`
+            );
         }
     }
 }

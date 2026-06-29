@@ -1,5 +1,5 @@
 import fs from 'fs/promises';
-import path from 'path';
+import * as path from 'node:path';
 
 export class LogCompactor {
     constructor(private readonly storagePath: string) {}

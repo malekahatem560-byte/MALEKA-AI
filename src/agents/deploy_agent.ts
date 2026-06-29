@@ -5,8 +5,17 @@ export class DeployAgent extends BaseAgent {
         super(id, 'DEPLOY');
     }
 
-    public async decide(task: { version: string; status: string }): Promise<void> {
-        this.log(`DEPLOY: Initiating hot-swap for version: ${task.version}`);
-        this.log(`DEPLOY: Deployment status: ${task.status}`);
+    public async decide(task: any): Promise<void> {
+
+        const version = task?.version ?? 'runtime';
+        const status = task?.status ?? 'ACTIVE';
+
+        this.log(
+            `DEPLOY: Initiating hot-swap for version: ${version}`
+        );
+
+        this.log(
+            `DEPLOY: Deployment status: ${status}`
+        );
     }
 }
